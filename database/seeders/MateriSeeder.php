@@ -26,7 +26,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/introduction.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter0/introduction.jpg',
-                'durasi' => '05:00',
+                'durasi' => 5,
             ],
             [
                 'bab' => 0,
@@ -37,7 +37,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/alphabet.mp4',
                 'audio' => 'audio/materi/alphabet.mp3',
                 'gambar' => 'images/materi/chapter0/alphabet.jpg',
-                'durasi' => '06:30',
+                'durasi' => 6,
             ],
             [
                 'bab' => 0,
@@ -48,7 +48,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/numbers.mp4',
                 'audio' => 'audio/materi/numbers.mp3',
                 'gambar' => 'images/materi/chapter0/numbers.jpg',
-                'durasi' => '05:20',
+                'durasi' => 5,
             ],
             [
                 'bab' => 0,
@@ -59,7 +59,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/colors.mp4',
                 'audio' => 'audio/materi/colors.mp3',
                 'gambar' => 'images/materi/chapter0/colors.jpg',
-                'durasi' => '04:40',
+                'durasi' => 4,
             ],
             [
                 'bab' => 0,
@@ -70,7 +70,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/days.mp4',
                 'audio' => 'audio/materi/days.mp3',
                 'gambar' => 'images/materi/chapter0/days.jpg',
-                'durasi' => '04:10',
+                'durasi' => 4,
             ],
             [
                 'bab' => 0,
@@ -81,7 +81,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter0/months.mp4',
                 'audio' => 'audio/materi/months.mp3',
                 'gambar' => 'images/materi/chapter0/months.jpg',
-                'durasi' => '04:50',
+                'durasi' => 4,
             ],
 
             /*
@@ -99,7 +99,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/greetings.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/greetings.jpg',
-                'durasi' => '05:30',
+                'durasi' => 5,
             ],
             [
                 'bab' => 1,
@@ -110,7 +110,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/introducing-yourself.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/introducing-yourself.jpg',
-                'durasi' => '06:00',
+                'durasi' => 6,
             ],
             [
                 'bab' => 1,
@@ -121,7 +121,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/asking-name.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/asking-name.jpg',
-                'durasi' => '04:20',
+                'durasi' => 4,
             ],
             [
                 'bab' => 1,
@@ -132,7 +132,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/polite-expressions.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/polite-expressions.jpg',
-                'durasi' => '04:45',
+                'durasi' => 4,
             ],
             [
                 'bab' => 1,
@@ -143,7 +143,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/leave-taking.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/leave-taking.jpg',
-                'durasi' => '04:30',
+                'durasi' => 4,
             ],
             [
                 'bab' => 1,
@@ -154,7 +154,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter1/sample-dialogue.mp4',
                 'audio' => 'audio/materi/greetings.mp3',
                 'gambar' => 'images/materi/chapter1/sample-dialogue.jpg',
-                'durasi' => '05:10',
+                'durasi' => 5,
             ],
 
             /*
@@ -172,7 +172,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/numbers-1-10.mp4',
                 'audio' => 'audio/materi/numbers.mp3',
                 'gambar' => 'images/materi/chapter2/numbers-1-10.jpg',
-                'durasi' => '04:00',
+                'durasi' => 4,
             ],
             [
                 'bab' => 2,
@@ -183,7 +183,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/numbers-11-20.mp4',
                 'audio' => 'audio/materi/numbers.mp3',
                 'gambar' => 'images/materi/chapter2/numbers-11-20.jpg',
-                'durasi' => '04:20',
+                'durasi' => 4,
             ],
             [
                 'bab' => 2,
@@ -194,7 +194,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/basic-colors.mp4',
                 'audio' => 'audio/materi/colors.mp3',
                 'gambar' => 'images/materi/chapter2/basic-colors.jpg',
-                'durasi' => '04:15',
+                'durasi' => 4,
             ],
             [
                 'bab' => 2,
@@ -205,7 +205,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/more-colors.mp4',
                 'audio' => 'audio/materi/colors.mp3',
                 'gambar' => 'images/materi/chapter2/more-colors.jpg',
-                'durasi' => '04:00',
+                'durasi' => 4,
             ],
             [
                 'bab' => 2,
@@ -216,7 +216,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/counting-objects.mp4',
                 'audio' => 'audio/materi/numbers.mp3',
                 'gambar' => 'images/materi/chapter2/counting-objects.jpg',
-                'durasi' => '05:10',
+                'durasi' => 5,
             ],
             [
                 'bab' => 2,
@@ -227,7 +227,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter2/colors-in-sentences.mp4',
                 'audio' => 'audio/materi/colors.mp3',
                 'gambar' => 'images/materi/chapter2/colors-in-sentences.jpg',
-                'durasi' => '05:00',
+                'durasi' => 5,
             ],
 
             /*
@@ -245,7 +245,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/days-of-the-week.mp4',
                 'audio' => 'audio/materi/days.mp3',
                 'gambar' => 'images/materi/chapter3/days-of-the-week.jpg',
-                'durasi' => '04:30',
+                'durasi' => 4,
             ],
             [
                 'bab' => 3,
@@ -256,7 +256,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/months-of-the-year.mp4',
                 'audio' => 'audio/materi/months.mp3',
                 'gambar' => 'images/materi/chapter3/months-of-the-year.jpg',
-                'durasi' => '04:45',
+                'durasi' => 4,
             ],
             [
                 'bab' => 3,
@@ -267,7 +267,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/today-tomorrow-yesterday.mp4',
                 'audio' => 'audio/materi/days.mp3',
                 'gambar' => 'images/materi/chapter3/today-tomorrow-yesterday.jpg',
-                'durasi' => '04:15',
+                'durasi' => 4,
             ],
             [
                 'bab' => 3,
@@ -278,7 +278,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/dates.mp4',
                 'audio' => 'audio/materi/months.mp3',
                 'gambar' => 'images/materi/chapter3/dates.jpg',
-                'durasi' => '05:10',
+                'durasi' => 5,
             ],
             [
                 'bab' => 3,
@@ -289,7 +289,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/class-schedule.mp4',
                 'audio' => 'audio/materi/days.mp3',
                 'gambar' => 'images/materi/chapter3/class-schedule.jpg',
-                'durasi' => '04:50',
+                'durasi' => 4,
             ],
             [
                 'bab' => 3,
@@ -300,7 +300,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter3/important-events.mp4',
                 'audio' => 'audio/materi/months.mp3',
                 'gambar' => 'images/materi/chapter3/important-events.jpg',
-                'durasi' => '05:00',
+                'durasi' => 5,
             ],
 
             /*
@@ -318,7 +318,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/family-members.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/family-members.jpg',
-                'durasi' => '05:15',
+                'durasi' => 5,
             ],
             [
                 'bab' => 4,
@@ -329,7 +329,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/introducing-my-family.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/introducing-my-family.jpg',
-                'durasi' => '05:20',
+                'durasi' => 5,
             ],
             [
                 'bab' => 4,
@@ -340,7 +340,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/classroom-objects.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/classroom-objects.jpg',
-                'durasi' => '04:40',
+                'durasi' => 4,
             ],
             [
                 'bab' => 4,
@@ -351,7 +351,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/things-at-home.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/things-at-home.jpg',
-                'durasi' => '04:50',
+                'durasi' => 4,
             ],
             [
                 'bab' => 4,
@@ -362,7 +362,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/this-that-these-those.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/this-that-these-those.jpg',
-                'durasi' => '05:30',
+                'durasi' => 5,
             ],
             [
                 'bab' => 4,
@@ -373,7 +373,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter4/simple-description.mp4',
                 'audio' => 'audio/materi/objects.mp3',
                 'gambar' => 'images/materi/chapter4/simple-description.jpg',
-                'durasi' => '05:00',
+                'durasi' => 5,
             ],
 
             /*
@@ -391,7 +391,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/morning-activities.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/morning-activities.jpg',
-                'durasi' => '05:10',
+                'durasi' => 5,
             ],
             [
                 'bab' => 5,
@@ -402,7 +402,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/school-activities.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/school-activities.jpg',
-                'durasi' => '05:20',
+                'durasi' => 5,
             ],
             [
                 'bab' => 5,
@@ -413,7 +413,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/afternoon-activities.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/afternoon-activities.jpg',
-                'durasi' => '05:00',
+                'durasi' => 5,
             ],
             [
                 'bab' => 5,
@@ -424,7 +424,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/evening-activities.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/evening-activities.jpg',
-                'durasi' => '04:45',
+                'durasi' => 4,
             ],
             [
                 'bab' => 5,
@@ -435,7 +435,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/simple-present-tense.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/simple-present-tense.jpg',
-                'durasi' => '06:00',
+                'durasi' => 6,
             ],
             [
                 'bab' => 5,
@@ -446,7 +446,7 @@ class MateriSeeder extends Seeder
                 'video' => 'videos/materi/chapter5/daily-routine-paragraph.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/daily-routine-paragraph.jpg',
-                'durasi' => '06:20',
+                'durasi' => 6,
             ],
         ];
 
