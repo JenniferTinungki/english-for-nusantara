@@ -1,0 +1,373 @@
+
+
+<?php $__env->startSection('content'); ?>
+<div class="container py-4">
+
+    <?php if(session('success')): ?>
+        <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 px-4 py-3">
+            <?php echo e(session('success')); ?>
+
+        </div>
+    <?php endif; ?>
+
+    <?php if(session('error')): ?>
+        <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4 px-4 py-3">
+            <?php echo e(session('error')); ?>
+
+        </div>
+    <?php endif; ?>
+
+    <div class="assessment-index-page">
+        <div class="index-shell">
+
+            <div class="index-hero">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <span class="index-chip">Assessment Center</span>
+                        <h1 class="index-title">Daftar Assessment</h1>
+                        <p class="index-subtitle mb-0">
+                            Kerjakan assessment yang tersedia, pantau progresmu,
+                            dan lihat hasil nilai dengan tampilan modern.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="hero-side-card">
+                            <div class="hero-side-label">Rata-rata Nilai</div>
+                            <div class="hero-side-value">
+                                <?php echo e(isset($averageScore) && $averageScore !== null ? number_format($averageScore, 0) : '-'); ?>
+
+                            </div>
+                            <div class="hero-side-caption">hasil assessment kamu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="index-stats">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Assessment</div>
+                            <div class="stat-number"><?php echo e($totalAssessment ?? 0); ?></div>
+                            <div class="stat-caption">assessment tersedia</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Selesai</div>
+                            <div class="stat-number"><?php echo e($completedAssessment ?? 0); ?></div>
+                            <div class="stat-caption">sudah dikerjakan</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Belum Dikerjakan</div>
+                            <div class="stat-number">
+                                <?php echo e(($totalAssessment ?? 0) - ($completedAssessment ?? 0)); ?>
+
+                            </div>
+                            <div class="stat-caption">menunggu dikerjakan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="assessment-list-section">
+                <div class="section-head">
+                    <div>
+                        <h3 class="section-title">Assessment Tersedia</h3>
+                        <p class="section-subtitle">
+                            Pilih assessment yang ingin kamu mulai atau lihat hasilnya.
+                        </p>
+                    </div>
+                </div>
+
+                <?php $__empty_1 = true; $__currentLoopData = $assessments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $assessment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <div class="assessment-card">
+                        <div class="assessment-card-top">
+                            <div class="assessment-left">
+                                <div class="assessment-number">
+                                    <?php echo e($index + 1); ?>
+
+                                </div>
+
+                                <div>
+                                    <div class="assessment-title">
+                                        <?php echo e($assessment->title); ?>
+
+                                    </div>
+
+                                    <div class="assessment-meta">
+                                        <?php echo e($assessment->questions_count ?? 0); ?> soal
+
+                                        <?php if(!empty($assessment->student_submitted_at)): ?>
+                                            • terakhir dikumpulkan
+                                            <?php echo e(\Carbon\Carbon::parse($assessment->student_submitted_at)->format('d-m-Y H:i')); ?>
+
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="assessment-right">
+                                <?php if(($assessment->student_status ?? null) === 'Selesai'): ?>
+                                    <span class="status-pill status-success">Selesai</span>
+                                <?php else: ?>
+                                    <span class="status-pill status-neutral">Belum Dikerjakan</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-4">
+                                <div class="mini-box">
+                                    <div class="mini-box-label">Jumlah Soal</div>
+                                    <div class="mini-box-value">
+                                        <?php echo e($assessment->questions_count ?? 0); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mini-box">
+                                    <div class="mini-box-label">Nilai</div>
+                                    <div class="mini-box-value">
+                                        <?php echo e($assessment->student_score ?? '-'); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mini-box action-box">
+                                    <div class="mini-box-label">Aksi</div>
+
+                                    <?php if(($assessment->student_status ?? null) === 'Selesai'): ?>
+                                        <a href="<?php echo e(route('siswa.assessment.result', $assessment->id)); ?>"
+                                           class="btn btn-outline-primary rounded-pill px-4">
+                                            Lihat Hasil
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="<?php echo e(route('siswa.assessment.show', $assessment->id)); ?>"
+                                           class="btn btn-primary rounded-pill px-4">
+                                            Mulai
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                    <div class="empty-card">
+                        Belum ada assessment yang tersedia saat ini.
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+.assessment-index-page{
+    padding-bottom:12px;
+}
+
+.index-shell{
+    background:#fff;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(15,23,42,.08);
+    border:1px solid rgba(226,232,240,.9);
+}
+
+.index-hero{
+    padding:32px;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 30%),
+        linear-gradient(135deg,#1d4ed8 0%,#2563eb 45%,#3b82f6 100%);
+    color:#fff;
+}
+
+.index-chip{
+    display:inline-block;
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    background:rgba(255,255,255,.16);
+    padding:8px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+}
+
+.index-title{
+    font-size:34px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.index-subtitle{
+    color:rgba(255,255,255,.85);
+    font-size:15px;
+    line-height:1.7;
+}
+
+.hero-side-card{
+    background:rgba(255,255,255,.14);
+    border-radius:24px;
+    padding:24px;
+    text-align:center;
+}
+
+.hero-side-label{
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.hero-side-value{
+    font-size:52px;
+    font-weight:800;
+}
+
+.hero-side-caption{
+    font-size:13px;
+}
+
+.index-stats{
+    padding:24px 32px 8px;
+    background:#f8fafc;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:20px;
+    padding:22px;
+    height:100%;
+}
+
+.stat-label{
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.stat-number{
+    font-size:36px;
+    font-weight:800;
+}
+
+.stat-caption{
+    color:#64748b;
+}
+
+.assessment-list-section{
+    padding:32px;
+}
+
+.section-title{
+    font-size:24px;
+    font-weight:800;
+}
+
+.section-subtitle{
+    color:#64748b;
+}
+
+.assessment-card{
+    background:linear-gradient(180deg,#fff 0%,#f8fafc 100%);
+    border:1px solid #e2e8f0;
+    border-radius:24px;
+    padding:24px;
+    margin-bottom:18px;
+}
+
+.assessment-card-top{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+}
+
+.assessment-left{
+    display:flex;
+    gap:14px;
+}
+
+.assessment-number{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:#fff;
+    font-weight:800;
+}
+
+.assessment-title{
+    font-size:22px;
+    font-weight:800;
+}
+
+.assessment-meta{
+    font-size:14px;
+    color:#64748b;
+}
+
+.status-pill{
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.status-success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status-neutral{
+    background:#e2e8f0;
+    color:#334155;
+}
+
+.mini-box{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:18px;
+    height:100%;
+}
+
+.mini-box-label{
+    font-size:12px;
+    font-weight:700;
+    color:#64748b;
+    margin-bottom:8px;
+}
+
+.mini-box-value{
+    font-size:28px;
+    font-weight:800;
+}
+
+.empty-card{
+    border:1px dashed #cbd5e1;
+    background:#f8fafc;
+    border-radius:20px;
+    padding:24px;
+    text-align:center;
+    color:#64748b;
+}
+</style>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\USER\Documents\proyek-pertama-saya\resources\views\siswa\assessment\index.blade.php ENDPATH**/ ?>
