@@ -18,7 +18,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Introduction',
                 'deskripsi' => 'Pengenalan aplikasi dan materi dasar English for Nusantara.',
@@ -29,7 +29,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:00',
             ],
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Alphabet',
                 'deskripsi' => 'Belajar huruf A sampai Z dan cara pengucapannya.',
@@ -40,7 +40,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '06:30',
             ],
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Numbers',
                 'deskripsi' => 'Belajar angka 1 sampai 20.',
@@ -51,7 +51,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:20',
             ],
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Colors',
                 'deskripsi' => 'Belajar nama-nama warna dasar.',
@@ -62,7 +62,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:40',
             ],
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Days',
                 'deskripsi' => 'Belajar nama hari dalam bahasa Inggris.',
@@ -73,7 +73,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:10',
             ],
             [
-                'bab' => 'Chapter 0',
+                'bab' => 0,
                 'judul' => 'Chapter 0 - Introduction',
                 'subjudul' => 'Months',
                 'deskripsi' => 'Belajar nama bulan dalam bahasa Inggris.',
@@ -91,7 +91,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
                 'subjudul' => 'Greeting Expressions',
                 'deskripsi' => 'Belajar salam formal dan informal.',
@@ -102,7 +102,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:30',
             ],
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
                 'subjudul' => 'Introducing Yourself',
                 'deskripsi' => 'Belajar memperkenalkan diri.',
@@ -113,9 +113,9 @@ class MateriSeeder extends Seeder
                 'durasi' => '06:00',
             ],
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
-                'subjudul' => 'Asking Someone’s Name',
+                'subjudul' => 'Asking Someone\'s Name',
                 'deskripsi' => 'Belajar menanyakan nama seseorang.',
                 'isi_materi' => 'What is your name? Who are you? May I know your name?',
                 'video' => 'videos/materi/chapter1/asking-name.mp4',
@@ -124,7 +124,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:20',
             ],
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
                 'subjudul' => 'Polite Expressions',
                 'deskripsi' => 'Belajar kata sopan santun.',
@@ -135,7 +135,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:45',
             ],
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
                 'subjudul' => 'Leave Taking',
                 'deskripsi' => 'Belajar salam perpisahan.',
@@ -146,7 +146,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:30',
             ],
             [
-                'bab' => 'Chapter 1',
+                'bab' => 1,
                 'judul' => 'Chapter 1 - Greetings',
                 'subjudul' => 'Sample Dialogue',
                 'deskripsi' => 'Contoh dialog perkenalan sederhana.',
@@ -164,7 +164,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'Numbers 1-10',
                 'deskripsi' => 'Belajar angka 1 sampai 10.',
@@ -175,7 +175,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:00',
             ],
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'Numbers 11-20',
                 'deskripsi' => 'Belajar angka 11 sampai 20.',
@@ -186,7 +186,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:20',
             ],
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'Basic Colors',
                 'deskripsi' => 'Belajar warna dasar.',
@@ -197,7 +197,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:15',
             ],
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'More Colors',
                 'deskripsi' => 'Belajar warna tambahan.',
@@ -208,7 +208,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:00',
             ],
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'Counting Objects',
                 'deskripsi' => 'Menghitung benda sederhana.',
@@ -219,7 +219,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:10',
             ],
             [
-                'bab' => 'Chapter 2',
+                'bab' => 2,
                 'judul' => 'Chapter 2 - Numbers & Colors',
                 'subjudul' => 'Colors in Sentences',
                 'deskripsi' => 'Menggunakan warna dalam kalimat.',
@@ -237,7 +237,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Days of the Week',
                 'deskripsi' => 'Belajar nama hari.',
@@ -248,7 +248,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:30',
             ],
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Months of the Year',
                 'deskripsi' => 'Belajar nama bulan.',
@@ -259,7 +259,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:45',
             ],
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Today, Tomorrow, Yesterday',
                 'deskripsi' => 'Belajar konsep waktu sederhana.',
@@ -270,7 +270,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:15',
             ],
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Dates',
                 'deskripsi' => 'Belajar menyebutkan tanggal.',
@@ -281,7 +281,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:10',
             ],
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Class Schedule',
                 'deskripsi' => 'Belajar jadwal pelajaran sederhana.',
@@ -292,7 +292,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:50',
             ],
             [
-                'bab' => 'Chapter 3',
+                'bab' => 3,
                 'judul' => 'Chapter 3 - Days & Months',
                 'subjudul' => 'Important Events',
                 'deskripsi' => 'Belajar menyebutkan acara penting.',
@@ -310,7 +310,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'Family Members',
                 'deskripsi' => 'Belajar anggota keluarga.',
@@ -321,7 +321,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:15',
             ],
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'Introducing My Family',
                 'deskripsi' => 'Belajar memperkenalkan keluarga.',
@@ -332,7 +332,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:20',
             ],
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'Classroom Objects',
                 'deskripsi' => 'Belajar benda di kelas.',
@@ -343,7 +343,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:40',
             ],
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'Things at Home',
                 'deskripsi' => 'Belajar benda di rumah.',
@@ -354,7 +354,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:50',
             ],
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'This, That, These, Those',
                 'deskripsi' => 'Belajar kata tunjuk.',
@@ -365,7 +365,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:30',
             ],
             [
-                'bab' => 'Chapter 4',
+                'bab' => 4,
                 'judul' => 'Chapter 4 - Family & Objects',
                 'subjudul' => 'Simple Description',
                 'deskripsi' => 'Belajar mendeskripsikan orang dan benda.',
@@ -383,7 +383,7 @@ class MateriSeeder extends Seeder
             */
 
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'Morning Activities',
                 'deskripsi' => 'Belajar aktivitas pagi hari.',
@@ -394,7 +394,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:10',
             ],
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'School Activities',
                 'deskripsi' => 'Belajar aktivitas di sekolah.',
@@ -405,7 +405,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:20',
             ],
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'Afternoon Activities',
                 'deskripsi' => 'Belajar aktivitas siang dan sore.',
@@ -416,7 +416,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '05:00',
             ],
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'Evening Activities',
                 'deskripsi' => 'Belajar aktivitas malam hari.',
@@ -427,7 +427,7 @@ class MateriSeeder extends Seeder
                 'durasi' => '04:45',
             ],
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'Simple Present Tense',
                 'deskripsi' => 'Belajar pola kalimat aktivitas harian.',
@@ -438,11 +438,11 @@ class MateriSeeder extends Seeder
                 'durasi' => '06:00',
             ],
             [
-                'bab' => 'Chapter 5',
+                'bab' => 5,
                 'judul' => 'Chapter 5 - Daily Activities',
                 'subjudul' => 'Daily Routine Paragraph',
                 'deskripsi' => 'Belajar membuat paragraf kegiatan harian.',
-                'isi_materi' => 'I wake up at five o’clock. Then I take a bath, eat breakfast, and go to school. In the evening, I study and sleep early.',
+                'isi_materi' => 'I wake up at five o\'clock. Then I take a bath, eat breakfast, and go to school. In the evening, I study and sleep early.',
                 'video' => 'videos/materi/chapter5/daily-routine-paragraph.mp4',
                 'audio' => 'audio/materi/introduction.mp3',
                 'gambar' => 'images/materi/chapter5/daily-routine-paragraph.jpg',
