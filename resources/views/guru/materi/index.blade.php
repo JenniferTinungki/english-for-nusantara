@@ -153,8 +153,9 @@
 
             </div>
 
-            <div class="mt-4">
-                {{ $materis->links() }}
+            {{-- PAGINATION DIPERBAIKI: pakai bootstrap-5 bukan tailwind --}}
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $materis->links('pagination::bootstrap-5') }}
             </div>
 
         @else
@@ -264,6 +265,7 @@
     font-weight:700;
     font-size:.92rem;
     transition:.25s ease;
+    cursor:pointer;
 }
 
 .mini-btn.blue{
