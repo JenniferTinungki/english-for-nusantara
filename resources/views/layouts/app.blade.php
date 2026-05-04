@@ -25,7 +25,7 @@
 
 <div id="mobile-overlay" onclick="closeSidebar()"></div>
 
-<div class="min-h-screen flex">
+<div class="min-h-screen flex" x-data="{ sidebarOpen: false }">
     @auth
         @if(Auth::user()->role === 'siswa')
             @include('layouts.sidebar-siswa')
