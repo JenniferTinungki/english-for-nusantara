@@ -15,12 +15,11 @@ class MateriController extends Controller
     public function index(): View
     {
         $materi = Materi::query()
+
             ->where('is_active', true)
             ->where('judul', 'not like', 'Chapter % -%')
             ->orderBy('bab', 'asc')
-            ->get();
-
-        dd($materi->count());    
+            ->get(); 
 
         return view('siswa.materi.index', compact('materi'));
     }
