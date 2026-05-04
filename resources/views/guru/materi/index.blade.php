@@ -153,9 +153,23 @@
 
             </div>
 
-            {{-- PAGINATION DIPERBAIKI: pakai bootstrap-5 bukan tailwind --}}
-            <div class="mt-4 d-flex justify-content-center">
-                {{ $materis->links('pagination::bootstrap-5') }}
+            {{-- PAGINATION MANUAL TANPA SVG --}}
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+                @if($materis->onFirstPage())
+                    <span class="btn btn-outline-secondary disabled">« Previous</span>
+                @else
+                    <a href="{{ $materis->previousPageUrl() }}" class="btn btn-outline-primary">« Previous</a>
+                @endif
+
+                <span class="text-muted">
+                    Showing {{ $materis->firstItem() }} to {{ $materis->lastItem() }} of {{ $materis->total() }} results
+                </span>
+
+                @if($materis->hasMorePages())
+                    <a href="{{ $materis->nextPageUrl() }}" class="btn btn-outline-primary">Next »</a>
+                @else
+                    <span class="btn btn-outline-secondary disabled">Next »</span>
+                @endif
             </div>
 
         @else
