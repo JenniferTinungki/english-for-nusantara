@@ -17,7 +17,10 @@ class MateriController extends Controller
         $materi = Materi::query()
             ->orderBy('bab', 'asc')
             ->orderBy('id', 'asc')
-            ->get();
+            ->get()
+            ->groupBy('bab')
+            ->map(fn($group) => $group->first())
+            ->values();
 
         return view('siswa.materi.index', compact('materi'));
     }
