@@ -20,6 +20,8 @@ class MateriController extends Controller
             ->orderBy('bab', 'asc')
             ->get();
 
+        dd($materi->count());    
+
         return view('siswa.materi.index', compact('materi'));
     }
 
