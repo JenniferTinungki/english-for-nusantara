@@ -17,9 +17,10 @@ class MateriController extends Controller
         $materi = Materi::query()
 
             ->where('is_active', true)
-            ->where('judul', 'not like', 'Chapter % -%')
-            ->orderBy('bab', 'asc')
-            ->get(); 
+            ->whereNotNull('bab')
+            ->groupBy('bab', 'judul')
+             ->orderBy('bab', 'asc')
+             ->get();
 
         return view('siswa.materi.index', compact('materi'));
     }
