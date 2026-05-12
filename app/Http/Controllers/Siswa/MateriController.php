@@ -17,10 +17,11 @@ class MateriController extends Controller
         $materi = Materi::query()
 
             ->where('is_active', true)
-            ->whereNotNull('bab')
-            ->groupBy('bab', 'judul')
-             ->orderBy('bab', 'asc')
-             ->get();
+            ->orderBy('bab', 'asc')
+            ->orderBy('id', 'asc')
+            ->get()
+            ->unique('bab')
+            ->values();
 
         return view('siswa.materi.index', compact('materi'));
     }
