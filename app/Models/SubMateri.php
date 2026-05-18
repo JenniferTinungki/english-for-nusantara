@@ -22,10 +22,4 @@ class SubMateri extends Model
             ->orderBy('urutan', 'asc')
             ->orderBy('id', 'asc');
     }
-    public function isiDetail()
-    {
-        return $this->hasMany(IsiMateriDetail::class, 'sub_materi_id')
-            ->orderBy('urutan', 'asc')
-            ->orderBy('id', 'asc');
-    }
 }

@@ -82,51 +82,62 @@
                     </div>
 
                     @forelse($assessment->questions as $index => $question)
-                        <div class="question-card">
-                            <div class="question-top">
-                                <div class="question-left">
-                                    <div class="question-number">{{ $index + 1 }}</div>
+    <div class="question-card">
+        <div class="question-top">
+            <div class="question-left">
+                <div class="question-number">{{ $index + 1 }}</div>
+                <div>
+                    <div class="question-title">{{ $question->question }}</div>
+                    <div class="question-meta">
+                        @if(($question->type ?? 'pilihan_ganda') === 'essay')
+                            <span class="badge bg-warning text-dark">Essay</span>
+                        @else
+                            <span class="badge bg-primary">Pilihan Ganda</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    <div>
-                                        <div class="question-title">
-                                            {{ $question->question }}
-                                        </div>
-                                        <div class="question-meta">Pilih salah satu jawaban di bawah ini</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="options-grid">
-                                @foreach(['A', 'B', 'C', 'D'] as $option)
-                                    @php
-                                        $field = 'option_' . strtolower($option);
-                                        $inputId = 'q' . $question->id . $option;
-                                    @endphp
-
-                                    <div class="option-item">
-                                        <input
-                                            class="option-input"
-                                            type="radio"
-                                            name="answers[{{ $question->id }}]"
-                                            id="{{ $inputId }}"
-                                            value="{{ $option }}"
-                                            {{ old("answers.{$question->id}") === $option ? 'checked' : '' }}
-                                        >
-
-                                        <label class="option-label" for="{{ $inputId }}">
-                                            <span class="option-badge">{{ $option }}</span>
-                                            <span class="option-text">{{ $question->$field }}</span>
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @empty
-                        <div class="empty-card">
-                            Assessment ini belum memiliki soal.
-                        </div>
-                    @endforelse
-
+        @if(($question->type ?? 'pilihan_ganda') === 'essay')
+            <div class="mt-3">
+                <textarea
+                    name="essay[{{ $question->id }}]"
+                    rows="4"
+                    class="form-control rounded-3"
+                    placeholder="Tulis jawaban essay kamu di sini...">{{ old("essay.{$question->id}") }}</textarea>
+            </div>
+        @else
+            <div class="options-grid">
+                @foreach(['A', 'B', 'C', 'D'] as $option)
+                    @php
+                        $field = 'option_' . strtolower($option);
+                        $inputId = 'q' . $question->id . $option;
+                    @endphp
+                    <div class="option-item">
+                        <input
+                            class="option-input"
+                            type="radio"
+                            name="answers[{{ $question->id }}]"
+                            id="{{ $inputId }}"
+                            value="{{ $option }}"
+                            {{ old("answers.{$question->id}") === $option ? 'checked' : '' }}
+                        >
+                        <label class="option-label" for="{{ $inputId }}">
+                            <span class="option-badge">{{ $option }}</span>
+                            <span class="option-text">{{ $question->$field }}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+@empty
+    <div class="empty-card">
+      Assessment ini belum memiliki soal.
+    </div>
+@endforelse
+                               
                     @if($assessment->questions->count() > 0)
                         <div class="submit-panel">
                             <div class="submit-panel-inner">

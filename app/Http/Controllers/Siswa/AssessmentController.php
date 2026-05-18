@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\AssessmentAttempt;
 use App\Models\AssessmentAnswer;
+use App\Models\AssessmentEssayAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,10 +80,14 @@ class AssessmentController extends Controller
         $user       = Auth::user();
         $assessment = Assessment::with('questions')->where('is_active', true)->findOrFail($id);
 
-        $questions = $assessment->questions;
-        $answers   = $request->input('answers', []);
-        $correct   = 0;
-        $total     = $questions->count();
+        $questions   = $assessment->questions;
+        $answers     = $request->input('answers', []);
+        $essayInputs = $request->input('essay', []);
+        $correct     = 0;
+
+        // Hitung total soal pilihan ganda saja untuk scoring
+        $pgQuestions = $questions->where('type', 'pilihan_ganda');
+        $totalPG     = $pgQuestions->count();
 
         DB::beginTransaction();
 
@@ -97,29 +102,46 @@ class AssessmentController extends Controller
             ]);
 
             foreach ($questions as $question) {
-                $selectedAnswer = $answers[$question->id] ?? null;
-                $isCorrect      = $selectedAnswer === $question->correct_answer;
+                $type = $question->type ?? 'pilihan_ganda';
 
-                if ($isCorrect) {
-                    $correct++;
+                if ($type === 'essay') {
+                    // Simpan jawaban essay
+                    AssessmentEssayAnswer::create([
+                        'assessment_id' => $assessment->id,
+                        'user_id'       => $user->id,
+                        'question_id'   => $question->id,
+                        'jawaban'       => $essayInputs[$question->id] ?? null,
+                        'nilai'         => null,
+                        'feedback'      => null,
+                    ]);
+                } else {
+                    // Pilihan ganda
+                    $selectedAnswer = $answers[$question->id] ?? null;
+                    $isCorrect      = $selectedAnswer !== null &&
+                                      strtoupper($selectedAnswer) === strtoupper($question->correct_answer ?? '');
+
+                    if ($isCorrect) {
+                        $correct++;
+                    }
+
+                    AssessmentAnswer::create([
+                        'attempt_id'    => $attempt->id,
+                        'question_id'   => $question->id,
+                        'jawaban_siswa' => $selectedAnswer,
+                        'is_correct'    => $isCorrect,
+                    ]);
                 }
-
-                AssessmentAnswer::create([
-                    'attempt_id'    => $attempt->id,
-                    'question_id'   => $question->id,
-                    'jawaban_siswa' => $selectedAnswer,
-                    'is_correct'    => $isCorrect,
-                ]);
             }
 
-            $score = $total > 0 ? round(($correct / $total) * 100) : 0;
+            // Skor berdasarkan pilihan ganda saja
+            $score = $totalPG > 0 ? round(($correct / $totalPG) * 100) : 0;
             $attempt->update(['score' => $score]);
 
             DB::commit();
 
             return redirect()
                 ->route('siswa.assessment.result', $attempt->id)
-                ->with('success', 'Assessment berhasil dikumpulkan.');
+                ->with('success', 'Assessment berhasil dikumpulkan. Soal essay akan dinilai oleh guru.');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -144,6 +166,16 @@ class AssessmentController extends Controller
         $score          = $attempt->score;
         $passed         = $score >= $assessment->passing_score;
 
+        // Cek apakah ada essay yang belum dinilai
+        $essayCount = AssessmentEssayAnswer::where('assessment_id', $assessment->id)
+            ->where('user_id', $user->id)
+            ->count();
+
+        $essayBelumDinilai = AssessmentEssayAnswer::where('assessment_id', $assessment->id)
+            ->where('user_id', $user->id)
+            ->whereNull('nilai')
+            ->count();
+
         return view('siswa.assessment.result', compact(
             'attempt',
             'assessment',
@@ -151,7 +183,9 @@ class AssessmentController extends Controller
             'correct',
             'wrong',
             'score',
-            'passed'
+            'passed',
+            'essayCount',
+            'essayBelumDinilai'
         ));
     }
 }

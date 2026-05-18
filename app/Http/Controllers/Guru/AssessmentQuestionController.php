@@ -14,7 +14,6 @@ class AssessmentQuestionController extends Controller
     public function create(int $assessmentId): View
     {
         $assessment = Assessment::findOrFail($assessmentId);
-
         return view('guru.assessment.questions.create', compact('assessment'));
     }
 
@@ -22,31 +21,53 @@ class AssessmentQuestionController extends Controller
     {
         $assessment = Assessment::findOrFail($assessmentId);
 
-        $request->validate([
-            'question'       => 'required|string',
-            'option_a'       => 'required|string|max:255',
-            'option_b'       => 'required|string|max:255',
-            'option_c'       => 'required|string|max:255',
-            'option_d'       => 'required|string|max:255',
-            'correct_answer' => 'required|in:a,b,c,d',
-        ], [
-            'question.required'       => 'Soal wajib diisi.',
-            'option_a.required'       => 'Pilihan A wajib diisi.',
-            'option_b.required'       => 'Pilihan B wajib diisi.',
-            'option_c.required'       => 'Pilihan C wajib diisi.',
-            'option_d.required'       => 'Pilihan D wajib diisi.',
-            'correct_answer.required' => 'Jawaban benar wajib dipilih.',
-        ]);
+        $type = $request->input('type', 'pilihan_ganda');
 
-        AssessmentQuestion::create([
-            'assessment_id'  => $assessment->id,
-            'question'       => $request->question,
-            'option_a'       => $request->option_a,
-            'option_b'       => $request->option_b,
-            'option_c'       => $request->option_c,
-            'option_d'       => $request->option_d,
-            'correct_answer' => $request->correct_answer,
-        ]);
+        if ($type === 'essay') {
+            $request->validate([
+                'question' => 'required|string',
+            ], [
+                'question.required' => 'Soal wajib diisi.',
+            ]);
+
+            AssessmentQuestion::create([
+                'assessment_id' => $assessment->id,
+                'type'          => 'essay',
+                'question'      => $request->question,
+                'option_a'      => null,
+                'option_b'      => null,
+                'option_c'      => null,
+                'option_d'      => null,
+                'correct_answer'=> null,
+            ]);
+        } else {
+            $request->validate([
+                'question'       => 'required|string',
+                'option_a'       => 'required|string|max:255',
+                'option_b'       => 'required|string|max:255',
+                'option_c'       => 'required|string|max:255',
+                'option_d'       => 'required|string|max:255',
+                'correct_answer' => 'required|in:A,B,C,D,a,b,c,d',
+            ], [
+                'question.required'       => 'Soal wajib diisi.',
+                'option_a.required'       => 'Pilihan A wajib diisi.',
+                'option_b.required'       => 'Pilihan B wajib diisi.',
+                'option_c.required'       => 'Pilihan C wajib diisi.',
+                'option_d.required'       => 'Pilihan D wajib diisi.',
+                'correct_answer.required' => 'Jawaban benar wajib dipilih.',
+            ]);
+
+            AssessmentQuestion::create([
+                'assessment_id'  => $assessment->id,
+                'type'           => 'pilihan_ganda',
+                'question'       => $request->question,
+                'option_a'       => $request->option_a,
+                'option_b'       => $request->option_b,
+                'option_c'       => $request->option_c,
+                'option_d'       => $request->option_d,
+                'correct_answer' => strtoupper($request->correct_answer),
+            ]);
+        }
 
         return redirect()
             ->route('guru.assessment.show', $assessment->id)
@@ -57,7 +78,6 @@ class AssessmentQuestionController extends Controller
     {
         $assessment = Assessment::findOrFail($assessmentId);
         $question   = AssessmentQuestion::where('assessment_id', $assessment->id)->findOrFail($id);
-
         return view('guru.assessment.questions.edit', compact('assessment', 'question'));
     }
 
@@ -66,30 +86,51 @@ class AssessmentQuestionController extends Controller
         $assessment = Assessment::findOrFail($assessmentId);
         $question   = AssessmentQuestion::where('assessment_id', $assessment->id)->findOrFail($id);
 
-        $request->validate([
-            'question'       => 'required|string',
-            'option_a'       => 'required|string|max:255',
-            'option_b'       => 'required|string|max:255',
-            'option_c'       => 'required|string|max:255',
-            'option_d'       => 'required|string|max:255',
-            'correct_answer' => 'required|in:a,b,c,d',
-        ], [
-            'question.required'       => 'Soal wajib diisi.',
-            'option_a.required'       => 'Pilihan A wajib diisi.',
-            'option_b.required'       => 'Pilihan B wajib diisi.',
-            'option_c.required'       => 'Pilihan C wajib diisi.',
-            'option_d.required'       => 'Pilihan D wajib diisi.',
-            'correct_answer.required' => 'Jawaban benar wajib dipilih.',
-        ]);
+        $type = $request->input('type', $question->type ?? 'pilihan_ganda');
 
-        $question->update([
-            'question'       => $request->question,
-            'option_a'       => $request->option_a,
-            'option_b'       => $request->option_b,
-            'option_c'       => $request->option_c,
-            'option_d'       => $request->option_d,
-            'correct_answer' => $request->correct_answer,
-        ]);
+        if ($type === 'essay') {
+            $request->validate([
+                'question' => 'required|string',
+            ], [
+                'question.required' => 'Soal wajib diisi.',
+            ]);
+
+            $question->update([
+                'type'           => 'essay',
+                'question'       => $request->question,
+                'option_a'       => null,
+                'option_b'       => null,
+                'option_c'       => null,
+                'option_d'       => null,
+                'correct_answer' => null,
+            ]);
+        } else {
+            $request->validate([
+                'question'       => 'required|string',
+                'option_a'       => 'required|string|max:255',
+                'option_b'       => 'required|string|max:255',
+                'option_c'       => 'required|string|max:255',
+                'option_d'       => 'required|string|max:255',
+                'correct_answer' => 'required|in:A,B,C,D,a,b,c,d',
+            ], [
+                'question.required'       => 'Soal wajib diisi.',
+                'option_a.required'       => 'Pilihan A wajib diisi.',
+                'option_b.required'       => 'Pilihan B wajib diisi.',
+                'option_c.required'       => 'Pilihan C wajib diisi.',
+                'option_d.required'       => 'Pilihan D wajib diisi.',
+                'correct_answer.required' => 'Jawaban benar wajib dipilih.',
+            ]);
+
+            $question->update([
+                'type'           => 'pilihan_ganda',
+                'question'       => $request->question,
+                'option_a'       => $request->option_a,
+                'option_b'       => $request->option_b,
+                'option_c'       => $request->option_c,
+                'option_d'       => $request->option_d,
+                'correct_answer' => strtoupper($request->correct_answer),
+            ]);
+        }
 
         return redirect()
             ->route('guru.assessment.show', $assessment->id)

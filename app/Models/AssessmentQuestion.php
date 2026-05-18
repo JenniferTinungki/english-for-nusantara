@@ -10,6 +10,7 @@ class AssessmentQuestion extends Model
 
     protected $fillable = [
         'assessment_id',
+        'type',
         'question',
         'option_a',
         'option_b',
@@ -21,5 +22,10 @@ class AssessmentQuestion extends Model
     public function assessment()
     {
         return $this->belongsTo(Assessment::class, 'assessment_id');
+    }
+
+    public function essayAnswers()
+    {
+        return $this->hasMany(AssessmentEssayAnswer::class, 'question_id');
     }
 }

@@ -14,6 +14,11 @@
         </div>
 
         <div class="d-flex gap-2 flex-wrap">
+            @if($assessment->questions->where('type', 'essay')->count() > 0)
+                <a href="{{ route('guru.assessment.essay.list', $assessment->id) }}" class="btn btn-warning rounded-pill px-4 fw-bold">
+                    <i class="fas fa-pen-to-square me-2"></i> Nilai Essay
+                </a>
+            @endif
             <a href="{{ route('guru.assessment.edit', $assessment->id) }}" class="btn-premium">
                 Edit Assessment
             </a>
@@ -69,9 +74,20 @@
                             {{ $assessment->deadline ? $assessment->deadline->format('d/m/Y H:i') : '-' }}
                         </div>
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <div class="text-muted fw-semibold mb-2">Materi</div>
                         <div class="fw-bold text-dark">{{ $assessment->materi->judul ?? '-' }}</div>
+                    </div>
+                    <div>
+                        <div class="text-muted fw-semibold mb-2">Komposisi Soal</div>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-primary rounded-pill px-3">
+                                PG: {{ $assessment->questions->where('type', 'pilihan_ganda')->count() }}
+                            </span>
+                            <span class="badge bg-warning text-dark rounded-pill px-3">
+                                Essay: {{ $assessment->questions->where('type', 'essay')->count() }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,32 +125,48 @@
         @if($assessment->questions->count())
             <div class="d-flex flex-column gap-3">
                 @foreach($assessment->questions as $index => $question)
+                    @php $type = $question->type ?? 'pilihan_ganda'; @endphp
                     <div class="glass-card p-4">
                         <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
                             <div style="flex:1;">
-                                <div class="fw-bold text-muted mb-2">Soal {{ $index + 1 }}</div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span class="fw-bold text-muted">Soal {{ $index + 1 }}</span>
+                                    @if($type === 'essay')
+                                        <span class="badge bg-warning text-dark">Essay</span>
+                                    @else
+                                        <span class="badge bg-primary">Pilihan Ganda</span>
+                                    @endif
+                                </div>
+
                                 <div class="fw-semibold text-dark mb-3" style="font-size:1.05rem;line-height:1.7;">
                                     {{ $question->question }}
                                 </div>
 
-                                <div class="row g-2">
-                                    @foreach(['a','b','c','d'] as $opt)
-                                        <div class="col-md-6">
-                                            <div class="rounded-3 px-3 py-2 d-flex align-items-center gap-2
-                                                {{ $question->correct_answer === $opt ? 'bg-success bg-opacity-10 border border-success' : 'bg-light border' }}">
-                                                <span class="fw-bold {{ $question->correct_answer === $opt ? 'text-success' : 'text-muted' }}">
-                                                    {{ strtoupper($opt) }}.
-                                                </span>
-                                                <span class="{{ $question->correct_answer === $opt ? 'text-success fw-semibold' : 'text-dark' }}">
-                                                    {{ $question->{'option_' . $opt} }}
-                                                </span>
-                                                @if($question->correct_answer === $opt)
-                                                    <span class="ms-auto badge bg-success">Benar</span>
-                                                @endif
+                                @if($type === 'essay')
+                                    <div class="rounded-3 bg-warning bg-opacity-10 border border-warning px-3 py-2 text-warning-emphasis small">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Soal essay — dinilai manual oleh guru setelah siswa mengumpulkan jawaban.
+                                    </div>
+                                @else
+                                    <div class="row g-2">
+                                        @foreach(['a','b','c','d'] as $opt)
+                                            <div class="col-md-6">
+                                                <div class="rounded-3 px-3 py-2 d-flex align-items-center gap-2
+                                                    {{ strtolower($question->correct_answer ?? '') === $opt ? 'bg-success bg-opacity-10 border border-success' : 'bg-light border' }}">
+                                                    <span class="fw-bold {{ strtolower($question->correct_answer ?? '') === $opt ? 'text-success' : 'text-muted' }}">
+                                                        {{ strtoupper($opt) }}.
+                                                    </span>
+                                                    <span class="{{ strtolower($question->correct_answer ?? '') === $opt ? 'text-success fw-semibold' : 'text-dark' }}">
+                                                        {{ $question->{'option_' . $opt} }}
+                                                    </span>
+                                                    @if(strtolower($question->correct_answer ?? '') === $opt)
+                                                        <span class="ms-auto badge bg-success">Benar</span>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="d-flex flex-column gap-2">

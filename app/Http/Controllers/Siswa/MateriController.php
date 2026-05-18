@@ -23,7 +23,6 @@ class MateriController extends Controller
             ->unique('bab')
             ->values();
 
-            dd($materi->count()); // tambahkan ini sementara
 
         return view('siswa.materi.index', compact('materi'));
     }

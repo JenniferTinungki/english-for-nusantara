@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\Assessment;
+use App\Models\AssessmentEssayAnswer;
 use App\Models\Materi;
 use Illuminate\Http\Request;
 
@@ -143,5 +144,37 @@ class AssessmentController extends Controller
         return redirect()
             ->route('guru.assessment.index')
             ->with('success', 'Assessment berhasil dihapus.');
+    }
+
+    public function essayList($id)
+    {
+        $assessment = Assessment::with('questions')->findOrFail($id);
+
+        $essayQuestions = $assessment->questions->where('type', 'essay');
+
+        $essayAnswers = AssessmentEssayAnswer::with(['user', 'question'])
+            ->where('assessment_id', $id)
+            ->orderBy('user_id')
+            ->get()
+            ->groupBy('user_id');
+
+        return view('guru.assessment.essay', compact('assessment', 'essayQuestions', 'essayAnswers'));
+    }
+
+    public function essayNilai(Request $request, $id)
+    {
+        $request->validate([
+            'essay_id' => 'required|integer',
+            'nilai'    => 'required|integer|min:0|max:100',
+            'feedback' => 'nullable|string|max:500',
+        ]);
+
+        $essay = AssessmentEssayAnswer::findOrFail($request->essay_id);
+        $essay->update([
+            'nilai'    => $request->nilai,
+            'feedback' => $request->feedback,
+        ]);
+
+        return redirect()->back()->with('success', 'Nilai essay berhasil disimpan.');
     }
 }
