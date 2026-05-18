@@ -6,11 +6,9 @@
 <div class="min-h-screen w-full overflow-x-hidden bg-slate-100">
     <div class="grid min-h-screen lg:grid-cols-2">
 
-        {{-- KIRI: Form Login --}}
         <div class="bg-slate-50 flex items-center justify-center px-6 py-8 sm:px-10 lg:px-14 xl:px-20">
             <div class="w-full max-w-md">
 
-                {{-- Logo & Judul --}}
                 <div class="flex items-center gap-4 mb-8">
                     <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center shadow-md border border-slate-200 overflow-hidden shrink-0">
                         <img src="{{ asset('images/kemendikbud.jpg') }}" alt="Logo" class="w-11 h-11 object-contain">
@@ -26,7 +24,6 @@
                     </div>
                 </div>
 
-                {{-- Heading --}}
                 <div class="mb-8">
                     <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
                         Selamat Datang Kembali
@@ -37,7 +34,6 @@
                     </p>
                 </div>
 
-                {{-- Status & Error --}}
                 @if (session('status'))
                     <div class="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
                         {{ session('status') }}
@@ -55,7 +51,7 @@
                 @endif
 
                 {{-- Form --}}
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                <form method="POST" action="{{ route('login.post') }}" class="space-y-5">
                     @csrf
 
                     <div>
@@ -84,10 +80,16 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2 text-sm">
-                        <input id="remember_me" type="checkbox" name="remember"
-                            class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
-                        <label for="remember_me" class="text-slate-700 cursor-pointer">Ingat saya</label>
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center gap-2">
+                            <input id="remember_me" type="checkbox" name="remember"
+                                class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                            <label for="remember_me" class="text-slate-700 cursor-pointer">Ingat saya</label>
+                        </div>
+                        <a href="{{ route('password.request') }}"
+                            class="text-blue-600 hover:text-blue-800 font-semibold transition">
+                            Lupa Password?
+                        </a>
                     </div>
 
                     <button type="submit"
@@ -106,7 +108,6 @@
             </div>
         </div>
 
-        {{-- KANAN: Gambar Dekoratif --}}
         <div class="relative hidden lg:flex items-center justify-center bg-gradient-to-b from-blue-950 via-blue-800 to-blue-700 p-8 xl:p-10 overflow-hidden">
             <div class="absolute -top-10 -right-10 w-56 h-56 bg-white/10 rounded-full blur-3xl"></div>
             <div class="absolute -bottom-10 -left-10 w-56 h-56 bg-blue-300/10 rounded-full blur-3xl"></div>
