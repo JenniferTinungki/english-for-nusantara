@@ -99,6 +99,32 @@
                             </a>
                         </div>
                     </div>
+                    
+                    {{-- Data Guru --}}
+<div x-data="{ open: {{ request()->routeIs('admin.guru.*') ? 'true' : 'false' }} }">
+    <button @click="open = !open"
+        class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition
+        {{ request()->routeIs('admin.guru.*') ? 'bg-white/20' : 'text-white/90 hover:bg-white/10 hover:text-white' }}">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-chalkboard-teacher w-5 text-center"></i>
+            <span>Data Guru</span>
+        </div>
+        <i class="fa-solid fa-chevron-down transition-transform duration-300 text-xs"
+           :class="open ? 'rotate-180' : ''"></i>
+    </button>
+    <div x-show="open" x-transition.opacity
+         class="pl-12 pr-4 py-2 space-y-3 mt-1"
+         style="display: none;">
+        <a href="{{ route('admin.guru.index') }}"
+           class="block text-sm transition-colors {{ request()->routeIs('admin.guru.index') ? 'text-white font-bold' : 'text-blue-200 hover:text-white' }}">
+            Daftar Guru
+        </a>
+        <a href="{{ route('admin.guru.create') }}"
+           class="block text-sm transition-colors {{ request()->routeIs('admin.guru.create') ? 'text-white font-bold' : 'text-blue-200 hover:text-white' }}">
+            Tambah Guru
+        </a>
+    </div>
+</div>
 
                     {{-- Quiz & Evaluasi --}}
                     <div x-data="{ open: {{ request()->routeIs('admin.quiz-evaluasi.*') ? 'true' : 'false' }} }">
