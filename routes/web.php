@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MateriController as AdminMateriController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\Admin\QuizEvaluasiController as AdminQuizEvaluasiController;
 use App\Http\Controllers\Admin\LaporanController as LaporanController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -38,6 +39,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('/users', AdminUserController::class);
     Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
+
+    Route::resource('/guru', AdminGuruController::class);
+    Route::patch('/guru/{guru}/toggle-status', [AdminGuruController::class, 'toggleStatus'])->name('guru.toggle-status');
 
     Route::prefix('quiz-evaluasi')->name('quiz-evaluasi.')->group(function () {
         Route::get('/', [AdminQuizEvaluasiController::class, 'index'])->name('index');
@@ -172,4 +176,3 @@ Route::middleware('auth')->prefix('siswa')->name('siswa.')->group(function () {
 
     Route::get('/progress', [SiswaProgressController::class, 'index'])->name('progress.index');
 });
-require __DIR__.'/auth.php';
