@@ -78,6 +78,23 @@
                     </div>
                 </div>
 
+                {{-- Data Guru (Dropdown) --}}
+                <div>
+                    <button id="btn-data-guru" class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all {{ request()->routeIs('admin.guru.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-600 hover:bg-blue-50 hover:text-blue-600' }}">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 flex items-center justify-center rounded-lg {{ request()->routeIs('admin.guru.*') ? 'bg-blue-100' : 'bg-slate-100' }}">
+                                <i class="fas fa-chalkboard-teacher text-sm"></i>
+                            </div>
+                            <span class="font-medium">Data Guru</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-[10px] chevron-rotate {{ request()->routeIs('admin.guru.*') ? 'rotate-180' : '' }}"></i>
+                    </button>
+                    <div id="menu-data-guru" class="submenu {{ request()->routeIs('admin.guru.*') ? 'open' : '' }} pl-12 mt-1 space-y-1">
+                        <a href="{{ route('admin.guru.index') }}" class="block py-2 text-sm {{ request()->routeIs('admin.guru.index') ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-blue-600' }}">Daftar Guru</a>
+                        <a href="{{ route('admin.guru.create') }}" class="block py-2 text-sm {{ request()->routeIs('admin.guru.create') ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-blue-600' }}">Tambah Guru</a>
+                    </div>
+                </div>
+
                 {{-- Quiz & Evaluasi --}}
                 <a href="{{ route('admin.quiz-evaluasi.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all {{ request()->routeIs('admin.quiz-evaluasi.*') ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'text-slate-600 hover:bg-blue-50 hover:text-blue-600' }}">
                     <div class="w-8 h-8 flex items-center justify-center rounded-lg {{ request()->routeIs('admin.quiz-evaluasi.*') ? 'bg-white/20' : 'bg-slate-100' }}">
@@ -169,8 +186,8 @@
         const menuGuru = document.getElementById('menu-data-guru');
         const chevronGuru = btnGuru.querySelector('.chevron-rotate');
         btnGuru.addEventListener('click', function() {
-             menuGuru.classList.toggle('open');
-             chevronGuru.classList.toggle('rotate-180');
+            menuGuru.classList.toggle('open');
+            chevronGuru.classList.toggle('rotate-180');
         });
     });
 </script>
