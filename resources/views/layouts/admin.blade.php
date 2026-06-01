@@ -164,6 +164,14 @@
             menuSiswa.classList.toggle('open');
             chevron.classList.toggle('rotate-180');
         });
+
+        const btnGuru = document.getElementById('btn-data-guru');
+        const menuGuru = document.getElementById('menu-data-guru');
+        const chevronGuru = btnGuru.querySelector('.chevron-rotate');
+        btnGuru.addEventListener('click', function() {
+             menuGuru.classList.toggle('open');
+             chevronGuru.classList.toggle('rotate-180');
+        });
     });
 </script>
 
