@@ -165,7 +165,6 @@
             @if(!empty($materi->video))
                 @php
                     $videoUrl = $materi->video;
-                    // Konversi youtube.com/watch?v=ID atau youtu.be/ID ke format embed
                     if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $videoUrl, $match)) {
                         $videoUrl = 'https://www.youtube.com/embed/' . $match[1];
                     }
@@ -287,6 +286,7 @@
         @endif
     </section>
 
+    {{-- MODAL --}}
     <div
         x-show="isOpen"
         x-transition.opacity
@@ -321,6 +321,34 @@
             </div>
 
             <div class="p-6 overflow-y-auto">
+
+                {{-- PILIH SUARA --}}
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="text-slate-600 font-semibold text-sm">Pilih Suara:</span>
+                    <button
+                        type="button"
+                        @click="setVoiceGender('female')"
+                        :class="voiceGender === 'female'
+                            ? 'bg-pink-500 text-white shadow-lg shadow-pink-200'
+                            : 'bg-pink-50 text-pink-600 hover:bg-pink-100'"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition"
+                    >
+                        <i class="fa-solid fa-venus"></i>
+                        Perempuan
+                    </button>
+                    <button
+                        type="button"
+                        @click="setVoiceGender('male')"
+                        :class="voiceGender === 'male'
+                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-200'
+                            : 'bg-blue-50 text-blue-600 hover:bg-blue-100'"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition"
+                    >
+                        <i class="fa-solid fa-mars"></i>
+                        Laki-laki
+                    </button>
+                </div>
+
                 <template x-if="activeItems.length === 0">
                     <div class="rounded-2xl bg-amber-50 text-amber-700 px-5 py-4 text-center font-semibold">
                         Materi belum memiliki detail item.
@@ -410,6 +438,55 @@ function materiViewer() {
         activeType: '',
         activeItems: [],
         status: 'Klik salah satu item untuk memulai suara.',
+        voiceGender: 'female',
+        availableVoices: [],
+
+        init() {
+            // Load voices
+            const loadVoices = () => {
+                this.availableVoices = window.speechSynthesis.getVoices();
+            };
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        },
+
+        setVoiceGender(gender) {
+            this.voiceGender = gender;
+            this.status = gender === 'female' ? 'Suara perempuan dipilih.' : 'Suara laki-laki dipilih.';
+        },
+
+        getVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            const enVoices = voices.filter(v => v.lang.startsWith('en'));
+
+            if (this.voiceGender === 'female') {
+                // Cari suara perempuan
+                const female = enVoices.find(v =>
+                    v.name.toLowerCase().includes('female') ||
+                    v.name.toLowerCase().includes('woman') ||
+                    v.name.toLowerCase().includes('samantha') ||
+                    v.name.toLowerCase().includes('victoria') ||
+                    v.name.toLowerCase().includes('karen') ||
+                    v.name.toLowerCase().includes('zira') ||
+                    v.name.toLowerCase().includes('susan') ||
+                    v.name.toLowerCase().includes('hazel')
+                );
+                return female || enVoices[0] || null;
+            } else {
+                // Cari suara laki-laki
+                const male = enVoices.find(v =>
+                    v.name.toLowerCase().includes('male') ||
+                    v.name.toLowerCase().includes('man') ||
+                    v.name.toLowerCase().includes('daniel') ||
+                    v.name.toLowerCase().includes('alex') ||
+                    v.name.toLowerCase().includes('david') ||
+                    v.name.toLowerCase().includes('mark') ||
+                    v.name.toLowerCase().includes('george') ||
+                    v.name.toLowerCase().includes('james')
+                );
+                return male || enVoices[1] || enVoices[0] || null;
+            }
+        },
 
         openModal(payload) {
             this.modalTitle = payload?.title || '';
@@ -463,8 +540,13 @@ function materiViewer() {
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
-            utterance.rate = 0.60;
-            utterance.pitch = 1;
+            utterance.rate = 0.55;
+            utterance.pitch = this.voiceGender === 'female' ? 1.2 : 0.8;
+
+            const selectedVoice = this.getVoice();
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
 
             utterance.onstart = () => {
                 this.status = 'Memutar suara: ' + text;
@@ -499,10 +581,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function formatDateTime(value) {
         if (!value) return '-';
-
         const date = new Date(value);
         if (isNaN(date.getTime())) return value;
-
         const pad = (n) => String(n).padStart(2, '0');
         return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
@@ -547,16 +627,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnMarkOpened?.addEventListener('click', async function () {
         const originalText = btnMarkOpened.textContent;
-
         try {
             btnMarkOpened.disabled = true;
             btnMarkOpened.textContent = 'Memproses...';
-
             const result = await sendProgress('{{ route('siswa.materi.opened', $materi->id) }}');
-
             setOpenedState(50);
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
-
             btnMarkOpened.textContent = 'Aktivitas Tersimpan';
         } catch (error) {
             alert(error.message);
@@ -568,17 +644,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnMarkCompleted?.addEventListener('click', async function () {
         const originalText = btnMarkCompleted.textContent;
-
         try {
             btnMarkCompleted.disabled = true;
             btnMarkCompleted.textContent = 'Memproses...';
-
             const result = await sendProgress('{{ route('siswa.materi.completed', $materi->id) }}');
-
             setCompletedState();
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
             completedText.textContent = formatDateTime(result.data.completed_at);
-
             btnMarkCompleted.textContent = 'Chapter Selesai';
         } catch (error) {
             alert(error.message);
@@ -592,9 +664,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', async function () {
             const subId = this.dataset.subId;
             if (!subId) return;
-
             currentSubId = subId;
-
             try {
                 const result = await sendProgress(`/siswa/materi/{{ $materi->id }}/sub/${subId}/opened`);
                 setOpenedState(result.data.percent);
@@ -610,22 +680,17 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Sub materi belum dipilih.');
             return;
         }
-
         const originalText = btnCompleteSub.textContent;
-
         try {
             btnCompleteSub.disabled = true;
             btnCompleteSub.textContent = 'Memproses...';
-
             const result = await sendProgress(`/siswa/materi/{{ $materi->id }}/sub/${currentSubId}/completed`);
-
             if (result.data.is_completed) {
                 setCompletedState();
                 completedText.textContent = formatDateTime(result.data.completed_at);
             } else {
                 setOpenedState(result.data.percent);
             }
-
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
             btnCompleteSub.textContent = 'Sub Materi Selesai';
         } catch (error) {
