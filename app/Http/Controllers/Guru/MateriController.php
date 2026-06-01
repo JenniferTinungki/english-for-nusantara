@@ -233,12 +233,6 @@ class MateriController extends Controller
             ->with('success', 'Isi detail berhasil dihapus.');
     }
 
-    /*
-    |------------------------------------------------------------------
-    | PRIVATE
-    |------------------------------------------------------------------
-    */
-
     private function authorizeMateri(Materi $materi): void
     {
         if (Schema::hasColumn('materi', 'guru_id')) {
