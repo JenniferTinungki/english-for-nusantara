@@ -460,31 +460,18 @@ function materiViewer() {
             const enVoices = voices.filter(v => v.lang.startsWith('en'));
 
             if (this.voiceGender === 'female') {
-                // Cari suara perempuan
-                const female = enVoices.find(v =>
-                    v.name.toLowerCase().includes('female') ||
-                    v.name.toLowerCase().includes('woman') ||
-                    v.name.toLowerCase().includes('samantha') ||
-                    v.name.toLowerCase().includes('victoria') ||
-                    v.name.toLowerCase().includes('karen') ||
-                    v.name.toLowerCase().includes('zira') ||
-                    v.name.toLowerCase().includes('susan') ||
-                    v.name.toLowerCase().includes('hazel')
-                );
-                return female || enVoices[0] || null;
+                return enVoices.find(v =>
+                    v.name.includes('Zira') ||
+                    v.name.includes('UK English Female') ||
+                    v.name.toLowerCase().includes('female')
+                ) || enVoices[0] || null;
             } else {
-                // Cari suara laki-laki
-                const male = enVoices.find(v =>
-                    v.name.toLowerCase().includes('male') ||
-                    v.name.toLowerCase().includes('man') ||
-                    v.name.toLowerCase().includes('daniel') ||
-                    v.name.toLowerCase().includes('alex') ||
-                    v.name.toLowerCase().includes('david') ||
-                    v.name.toLowerCase().includes('mark') ||
-                    v.name.toLowerCase().includes('george') ||
-                    v.name.toLowerCase().includes('james')
-                );
-                return male || enVoices[1] || enVoices[0] || null;
+                return enVoices.find(v =>
+                    v.name.includes('David') ||
+                    v.name.includes('Mark') ||
+                    v.name.includes('UK English Male') ||
+                    v.name.includes('US English')
+                ) || enVoices[1] || enVoices[0] || null;
             }
         },
 
