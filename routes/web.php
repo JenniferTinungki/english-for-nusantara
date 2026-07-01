@@ -24,6 +24,21 @@ use App\Http\Controllers\Siswa\ProgressController as SiswaProgressController;
 use App\Http\Controllers\Siswa\QuizController as SiswaQuizController;
 use App\Http\Controllers\Siswa\TugasController as SiswaTugasController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
+// =========================================================================
+// Serve file dari storage/app/public tanpa symlink
+// (dipakai karena fungsi symlink()/link() di-disable oleh hosting)
+// =========================================================================
+Route::get('/storage/{path}', function (string $path) {
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+
+    $fullPath = Storage::disk('public')->path($path);
+
+    return response()->file($fullPath);
+})->where('path', '.*')->name('storage.serve');
 
 Route::view('/', 'landing')->name('landing');
 
