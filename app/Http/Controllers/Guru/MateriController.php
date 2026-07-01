@@ -148,12 +148,6 @@ class MateriController extends Controller
             ->with('success', 'Materi berhasil dihapus.');
     }
 
-    /*
-    |------------------------------------------------------------------
-    | SUB MATERI
-    |------------------------------------------------------------------
-    */
-
     public function subStore(Request $request, Materi $materi)
     {
         $this->authorizeMateri($materi);
@@ -200,12 +194,7 @@ class MateriController extends Controller
             ->with('success', 'Sub materi berhasil dihapus.');
     }
 
-    /*
-    |------------------------------------------------------------------
-    | ISI DETAIL
-    |------------------------------------------------------------------
-    */
-
+  
     public function detailStore(Request $request, Materi $materi, $subId)
     {
         $this->authorizeMateri($materi);

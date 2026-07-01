@@ -105,7 +105,6 @@ class AssessmentController extends Controller
                 $type = $question->type ?? 'pilihan_ganda';
 
                 if ($type === 'essay') {
-                    // Simpan jawaban essay
                     AssessmentEssayAnswer::create([
                         'assessment_id' => $assessment->id,
                         'user_id'       => $user->id,
@@ -115,7 +114,6 @@ class AssessmentController extends Controller
                         'feedback'      => null,
                     ]);
                 } else {
-                    // Pilihan ganda
                     $selectedAnswer = $answers[$question->id] ?? null;
                     $isCorrect      = $selectedAnswer !== null &&
                                       strtoupper($selectedAnswer) === strtoupper($question->correct_answer ?? '');
@@ -166,7 +164,6 @@ class AssessmentController extends Controller
         $score          = $attempt->score;
         $passed         = $score >= $assessment->passing_score;
 
-        // Cek apakah ada essay yang belum dinilai
         $essayCount = AssessmentEssayAnswer::where('assessment_id', $assessment->id)
             ->where('user_id', $user->id)
             ->count();
