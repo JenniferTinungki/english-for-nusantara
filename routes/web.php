@@ -176,3 +176,4 @@ Route::middleware('auth')->prefix('siswa')->name('siswa.')->group(function () {
 
     Route::get('/progress', [SiswaProgressController::class, 'index'])->name('progress.index');
 });
+require __DIR__.'/auth.php';
