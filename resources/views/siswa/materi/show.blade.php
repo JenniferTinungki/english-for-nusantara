@@ -165,7 +165,6 @@
             @if(!empty($materi->video))
                 @php
                     $videoUrl = $materi->video;
-                    // Konversi youtube.com/watch?v=ID atau youtu.be/ID ke format embed
                     if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $videoUrl, $match)) {
                         $videoUrl = 'https://www.youtube.com/embed/' . $match[1];
                     }
@@ -287,6 +286,7 @@
         @endif
     </section>
 
+    {{-- MODAL --}}
     <div
         x-show="isOpen"
         x-transition.opacity
@@ -307,7 +307,8 @@
                 <div>
                     <h3 class="text-2xl font-extrabold text-slate-800" x-text="modalTitle"></h3>
                     <p class="text-slate-500 mt-1 leading-7">
-                        Klik item untuk mendengar suara pelafalan bahasa Inggris.
+                        Klik <i class="fa-solid fa-volume-high"></i> untuk mendengar, atau
+                        <i class="fa-solid fa-microphone"></i> untuk melatih pengucapanmu.
                     </p>
                 </div>
 
@@ -321,6 +322,34 @@
             </div>
 
             <div class="p-6 overflow-y-auto">
+
+                {{-- PILIH SUARA --}}
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="text-slate-600 font-semibold text-sm">Pilih Suara:</span>
+                    <button
+                        type="button"
+                        @click="setVoiceGender('female')"
+                        :class="voiceGender === 'female'
+                            ? 'bg-pink-500 text-white shadow-lg shadow-pink-200'
+                            : 'bg-pink-50 text-pink-600 hover:bg-pink-100'"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition"
+                    >
+                        <i class="fa-solid fa-venus"></i>
+                        Perempuan
+                    </button>
+                    <button
+                        type="button"
+                        @click="setVoiceGender('male')"
+                        :class="voiceGender === 'male'
+                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-200'
+                            : 'bg-blue-50 text-blue-600 hover:bg-blue-100'"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition"
+                    >
+                        <i class="fa-solid fa-mars"></i>
+                        Laki-laki
+                    </button>
+                </div>
+
                 <template x-if="activeItems.length === 0">
                     <div class="rounded-2xl bg-amber-50 text-amber-700 px-5 py-4 text-center font-semibold">
                         Materi belum memiliki detail item.
@@ -330,14 +359,31 @@
                 <template x-if="activeType === 'alphabet' || activeType === 'numbers'">
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         <template x-for="(item, index) in activeItems" :key="index">
-                            <button
-                                type="button"
-                                @click="speakItem(item)"
-                                class="rounded-[22px] border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-center"
-                            >
+                            <div class="rounded-[22px] border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-center">
                                 <div class="text-4xl font-extrabold text-blue-600 mb-2" x-text="item.label"></div>
-                                <div class="text-slate-600 font-semibold" x-text="item.nilai"></div>
-                            </button>
+                                <div class="text-slate-600 font-semibold mb-3" x-text="item.nilai"></div>
+                                <div class="flex items-center justify-center gap-2">
+                                    <button
+                                        type="button"
+                                        @click="speakItem(item)"
+                                        class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+                                        title="Dengarkan"
+                                    >
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        @click="practicePronunciation(item)"
+                                        :class="listening
+                                            ? 'bg-red-500 text-white animate-pulse'
+                                            : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'"
+                                        class="w-10 h-10 rounded-full transition"
+                                        title="Latih Pengucapan"
+                                    >
+                                        <i class="fa-solid fa-microphone"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </template>
                     </div>
                 </template>
@@ -345,18 +391,35 @@
                 <template x-if="activeType === 'colors'">
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         <template x-for="(item, index) in activeItems" :key="index">
-                            <button
-                                type="button"
-                                @click="speakItem(item)"
-                                class="rounded-[22px] border border-slate-200 bg-white p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-center"
-                            >
+                            <div class="rounded-[22px] border border-slate-200 bg-white p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-center">
                                 <div
                                     class="w-16 h-16 rounded-full mx-auto mb-3 border border-slate-200"
                                     :style="'background:' + (item.warna || '#e5e7eb')"
                                 ></div>
                                 <div class="text-slate-700 font-semibold" x-text="item.label"></div>
-                                <div class="text-slate-500 text-sm" x-text="item.arti || ''"></div>
-                            </button>
+                                <div class="text-slate-500 text-sm mb-3" x-text="item.arti || ''"></div>
+                                <div class="flex items-center justify-center gap-2">
+                                    <button
+                                        type="button"
+                                        @click="speakItem(item)"
+                                        class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+                                        title="Dengarkan"
+                                    >
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        @click="practicePronunciation(item)"
+                                        :class="listening
+                                            ? 'bg-red-500 text-white animate-pulse'
+                                            : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'"
+                                        class="w-10 h-10 rounded-full transition"
+                                        title="Latih Pengucapan"
+                                    >
+                                        <i class="fa-solid fa-microphone"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </template>
                     </div>
                 </template>
@@ -364,15 +427,36 @@
                 <template x-if="activeType === 'greetings' || activeType === 'commands' || activeType === 'standard'">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="(item, index) in activeItems" :key="index">
-                            <button
-                                type="button"
-                                @click="speakItem(item)"
-                                class="rounded-[22px] border border-slate-200 bg-white p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-left"
-                            >
-                                <div class="text-xl font-extrabold text-blue-700 mb-1" x-text="item.label"></div>
-                                <div class="text-slate-600" x-text="item.nilai || ''"></div>
-                                <div class="text-slate-500 text-sm mt-1" x-text="item.arti || ''"></div>
-                            </button>
+                            <div class="rounded-[22px] border border-slate-200 bg-white p-5 shadow-md hover:-translate-y-1 hover:shadow-lg transition text-left">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <div class="text-xl font-extrabold text-blue-700 mb-1" x-text="item.label"></div>
+                                        <div class="text-slate-600" x-text="item.nilai || ''"></div>
+                                        <div class="text-slate-500 text-sm mt-1" x-text="item.arti || ''"></div>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <button
+                                            type="button"
+                                            @click="speakItem(item)"
+                                            class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+                                            title="Dengarkan"
+                                        >
+                                            <i class="fa-solid fa-volume-high"></i>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            @click="practicePronunciation(item)"
+                                            :class="listening
+                                                ? 'bg-red-500 text-white animate-pulse'
+                                                : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'"
+                                            class="w-10 h-10 rounded-full transition"
+                                            title="Latih Pengucapan"
+                                        >
+                                            <i class="fa-solid fa-microphone"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </template>
                     </div>
                 </template>
@@ -410,6 +494,46 @@ function materiViewer() {
         activeType: '',
         activeItems: [],
         status: 'Klik salah satu item untuk memulai suara.',
+        voiceGender: 'female',
+        availableVoices: [],
+
+        // --- state untuk latihan pengucapan (Speech Recognition) ---
+        listening: false,
+        recognition: null,
+
+        init() {
+            // Load voices
+            const loadVoices = () => {
+                this.availableVoices = window.speechSynthesis.getVoices();
+            };
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        },
+
+        setVoiceGender(gender) {
+            this.voiceGender = gender;
+            this.status = gender === 'female' ? 'Suara perempuan dipilih.' : 'Suara laki-laki dipilih.';
+        },
+
+        getVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            const enVoices = voices.filter(v => v.lang.startsWith('en'));
+
+            if (this.voiceGender === 'female') {
+                return enVoices.find(v =>
+                    v.name.includes('Zira') ||
+                    v.name.includes('UK English Female') ||
+                    v.name.toLowerCase().includes('female')
+                ) || enVoices[0] || null;
+            } else {
+                return enVoices.find(v =>
+                    v.name.includes('David') ||
+                    v.name.includes('Mark') ||
+                    v.name.includes('UK English Male') ||
+                    v.name.includes('US English')
+                ) || enVoices[1] || enVoices[0] || null;
+            }
+        },
 
         openModal(payload) {
             this.modalTitle = payload?.title || '';
@@ -433,7 +557,26 @@ function materiViewer() {
                 window.speechSynthesis.cancel();
             }
 
+            if (this.recognition) {
+                this.recognition.abort();
+                this.listening = false;
+            }
+
             document.body.classList.remove('overflow-hidden');
+        },
+
+        // Menentukan teks yang akan dibacakan / dijadikan target pengucapan,
+        // dipakai bersama oleh speakItem() dan practicePronunciation()
+        getSpeechText(item) {
+            if (this.activeType === 'alphabet') {
+                return `${item.label} for ${item.nilai || ''}`.trim();
+            } else if (this.activeType === 'numbers') {
+                return `${item.label} ${item.nilai || ''}`.trim();
+            } else if (this.activeType === 'colors') {
+                return item.label || '';
+            } else {
+                return item.label || '';
+            }
         },
 
         speakItem(item) {
@@ -442,17 +585,7 @@ function materiViewer() {
                 return;
             }
 
-            let text = '';
-
-            if (this.activeType === 'alphabet') {
-                text = `${item.label} for ${item.nilai || ''}`.trim();
-            } else if (this.activeType === 'numbers') {
-                text = `${item.label} ${item.nilai || ''}`.trim();
-            } else if (this.activeType === 'colors') {
-                text = item.label || '';
-            } else {
-                text = item.label || '';
-            }
+            const text = this.getSpeechText(item);
 
             if (!text) {
                 this.status = 'Item tidak memiliki teks untuk dibacakan.';
@@ -464,7 +597,12 @@ function materiViewer() {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
             utterance.rate = 0.55;
-            utterance.pitch = 1;
+            utterance.pitch = this.voiceGender === 'female' ? 1.2 : 0.8;
+
+            const selectedVoice = this.getVoice();
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
 
             utterance.onstart = () => {
                 this.status = 'Memutar suara: ' + text;
@@ -479,6 +617,103 @@ function materiViewer() {
             };
 
             window.speechSynthesis.speak(utterance);
+        },
+
+        // --- LATIHAN PENGUCAPAN (TTS + STT timbal balik) ---
+        practicePronunciation(item) {
+            const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognitionAPI) {
+                this.status = 'Browser tidak mendukung pengenalan suara. Gunakan Chrome/Edge terbaru.';
+                return;
+            }
+
+            const targetText = this.getSpeechText(item);
+            if (!targetText) {
+                this.status = 'Item tidak memiliki teks untuk dilatih.';
+                return;
+            }
+
+            // Toggle: kalau sedang mendengarkan, tombol berfungsi untuk berhenti
+            if (this.listening) {
+                this.recognition?.abort();
+                this.listening = false;
+                this.status = 'Latihan dibatalkan.';
+                return;
+            }
+
+            // Hentikan TTS yang mungkin masih berjalan
+            window.speechSynthesis.cancel();
+
+            this.recognition = new SpeechRecognitionAPI();
+            this.recognition.lang = 'en-US';
+            this.recognition.interimResults = false;
+            this.recognition.maxAlternatives = 1;
+
+            this.listening = true;
+            this.status = `🎤 Mendengarkan... coba ucapkan: "${targetText}"`;
+
+            try {
+                this.recognition.start();
+            } catch (e) {
+                this.listening = false;
+                this.status = 'Tidak bisa memulai mikrofon. Coba lagi.';
+                return;
+            }
+
+            this.recognition.onresult = (event) => {
+                const spoken = event.results[0][0].transcript;
+                this.evaluatePronunciation(spoken, targetText);
+            };
+
+            this.recognition.onerror = (event) => {
+                this.listening = false;
+                if (event.error === 'no-speech') {
+                    this.status = 'Tidak ada suara terdengar. Coba lagi.';
+                } else if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+                    this.status = 'Izin mikrofon ditolak. Aktifkan izin mikrofon di pengaturan browser.';
+                } else {
+                    this.status = 'Gagal menangkap suara. Coba lagi.';
+                }
+            };
+
+            this.recognition.onend = () => {
+                this.listening = false;
+            };
+        },
+
+        evaluatePronunciation(spoken, target) {
+            const normalize = (str) => str.toLowerCase().trim().replace(/[.,!?]/g, '');
+            const spokenNorm = normalize(spoken);
+            const targetNorm = normalize(target);
+            const similarity = this.similarityScore(spokenNorm, targetNorm);
+
+            if (similarity >= 0.85) {
+                this.status = `✅ Bagus! Kamu mengucapkan "${spoken}" dengan benar.`;
+            } else if (similarity >= 0.6) {
+                this.status = `⚠️ Hampir benar. Kamu mengucapkan "${spoken}", target: "${target}". Coba lagi.`;
+            } else {
+                this.status = `❌ Belum sesuai. Kamu mengucapkan "${spoken}", target: "${target}". Coba lagi.`;
+            }
+        },
+
+        // Levenshtein distance -> skor kemiripan 0..1
+        similarityScore(a, b) {
+            const distance = this.levenshtein(a, b);
+            const maxLen = Math.max(a.length, b.length) || 1;
+            return 1 - distance / maxLen;
+        },
+
+        levenshtein(a, b) {
+            const matrix = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+            for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+            for (let i = 1; i <= a.length; i++) {
+                for (let j = 1; j <= b.length; j++) {
+                    matrix[i][j] = a[i - 1] === b[j - 1]
+                        ? matrix[i - 1][j - 1]
+                        : 1 + Math.min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]);
+                }
+            }
+            return matrix[a.length][b.length];
         }
     }
 }
@@ -499,10 +734,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function formatDateTime(value) {
         if (!value) return '-';
-
         const date = new Date(value);
         if (isNaN(date.getTime())) return value;
-
         const pad = (n) => String(n).padStart(2, '0');
         return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
@@ -547,16 +780,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnMarkOpened?.addEventListener('click', async function () {
         const originalText = btnMarkOpened.textContent;
-
         try {
             btnMarkOpened.disabled = true;
             btnMarkOpened.textContent = 'Memproses...';
-
             const result = await sendProgress('{{ route('siswa.materi.opened', $materi->id) }}');
-
             setOpenedState(50);
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
-
             btnMarkOpened.textContent = 'Aktivitas Tersimpan';
         } catch (error) {
             alert(error.message);
@@ -568,17 +797,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnMarkCompleted?.addEventListener('click', async function () {
         const originalText = btnMarkCompleted.textContent;
-
         try {
             btnMarkCompleted.disabled = true;
             btnMarkCompleted.textContent = 'Memproses...';
-
             const result = await sendProgress('{{ route('siswa.materi.completed', $materi->id) }}');
-
             setCompletedState();
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
             completedText.textContent = formatDateTime(result.data.completed_at);
-
             btnMarkCompleted.textContent = 'Chapter Selesai';
         } catch (error) {
             alert(error.message);
@@ -592,9 +817,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', async function () {
             const subId = this.dataset.subId;
             if (!subId) return;
-
             currentSubId = subId;
-
             try {
                 const result = await sendProgress(`/siswa/materi/{{ $materi->id }}/sub/${subId}/opened`);
                 setOpenedState(result.data.percent);
@@ -610,22 +833,17 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Sub materi belum dipilih.');
             return;
         }
-
         const originalText = btnCompleteSub.textContent;
-
         try {
             btnCompleteSub.disabled = true;
             btnCompleteSub.textContent = 'Memproses...';
-
             const result = await sendProgress(`/siswa/materi/{{ $materi->id }}/sub/${currentSubId}/completed`);
-
             if (result.data.is_completed) {
                 setCompletedState();
                 completedText.textContent = formatDateTime(result.data.completed_at);
             } else {
                 setOpenedState(result.data.percent);
             }
-
             lastOpenedText.textContent = formatDateTime(result.data.last_accessed_at);
             btnCompleteSub.textContent = 'Sub Materi Selesai';
         } catch (error) {
